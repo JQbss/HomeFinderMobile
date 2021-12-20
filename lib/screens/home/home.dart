@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:home_finder/screens/home/login/login.dart';
 import 'package:home_finder/widget/custom_switch_button/custom_switch_button.dart';
 import 'package:home_finder/widget/custom_title/custom_title.dart';
 
@@ -38,7 +39,6 @@ class _Home extends State<Home> {
   Widget build(BuildContext context) {
 
     return Stack(
-
       children: [
         Positioned(
             left: 0,
@@ -57,25 +57,30 @@ class _Home extends State<Home> {
             )
         ),
 
-        Center(
-          child: Column(
-            children:[
-              Container(
-                margin: const EdgeInsets.only(top: 75),
-                child: SvgPicture.asset('assets/logo.svg'),
+        Column(
+          children:[
+            Container(
+              margin: const EdgeInsets.only(top: 75),
+              child: SvgPicture.asset('assets/logo.svg'),
+            ),
+            Container(
+                margin: const EdgeInsets.only(top: 15),
+                child:const CustomTitle(value: "Home Finder")
+            ),
+            CustomSwitchButton(
+                textLeft: "Zaloguj",
+                textRight: "Zarejestruj",
+                onPressedLeft: onLeftPressedHandler,
+                onPressedRight: onRightPressedHandler
+            ),
+            if (isLeft) const Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 50.0,right: 50,top: 20),
+                child: Login(),
               ),
-              Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  child:const CustomTitle(value: "Home Finder")
-              ),
-              CustomSwitchButton(
-                  textLeft: "Zaloguj",
-                  textRight: "Zarejestruj",
-                  onPressedLeft: ()=>{},
-                  onPressedRight: ()=>{}
-              )
-            ],
-          ),
+            ),
+
+          ],
         ),
       ],
     );

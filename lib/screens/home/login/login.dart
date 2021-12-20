@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home_finder/widget/custom_button/custom_button.dart';
+import 'package:home_finder/widget/custom_switch_button/custom_switch_button.dart';
+import 'package:home_finder/widget/custom_text_form_field/custom_text_form_field.dart';
 
 class Login extends StatefulWidget{
 
@@ -11,7 +14,6 @@ class Login extends StatefulWidget{
 
 class _Login extends State<Login>{
 
-  final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -22,16 +24,23 @@ class _Login extends State<Login>{
   @override
   Widget build(BuildContext context) {
 
-    return Form(
-      key: _formKey,
-      child: Column(
+    return Column(
         children: [
-          TextFormField(
-            controller: emailController,
-          )
+          CustomTextFormField(controller: emailController,hint: "email"),
+          Padding(
+            padding: const EdgeInsets.only(top:15.0),
+            child: CustomTextFormField(controller: passwordController,hint: "password"),
+          ),
+          Expanded(
+              child: Align(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: CustomButton(onPressed: ()=>{}, text: 'Zaloguj'),
+                  ),
+                alignment: Alignment.bottomCenter,
+              )
+          ),
         ],
-      ),
-
     );
   }
 
