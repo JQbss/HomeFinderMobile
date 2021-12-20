@@ -9,7 +9,9 @@ class CustomThemes{
     "gradientDark": 0xffF2D57E,
     "gradientLight":0xffffffff,
     "inputBackground":0xFFB0D9CD,
-    "darkText":0xFF275954
+    "darkText":0xFF275954,
+    "lightGreen":0xFFB0D9CD,
+    "darkGreen":0xFF275954
   };
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:home_finder/common/custom_title/custom_title.dart';
+import 'package:home_finder/widget/custom_switch_button/custom_switch_button.dart';
+import 'package:home_finder/widget/custom_title/custom_title.dart';
 
 class Home extends StatefulWidget{
 
@@ -15,6 +16,22 @@ class _Home extends State<Home> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLeft = false;
+  bool isRight = false;
+
+  void onLeftPressedHandler(){
+    setState(() {
+      isLeft=true;
+      isRight = false;
+    });
+  }
+
+  void onRightPressedHandler(){
+    setState(() {
+      isLeft=false;
+      isRight = true;
+    });
+  }
 
 
   @override
@@ -51,8 +68,13 @@ class _Home extends State<Home> {
                   margin: const EdgeInsets.only(top: 15),
                   child:const CustomTitle(value: "Home Finder")
               ),
+              CustomSwitchButton(
+                  textLeft: "Zaloguj",
+                  textRight: "Zarejestruj",
+                  onPressedLeft: ()=>{},
+                  onPressedRight: ()=>{}
+              )
             ],
-
           ),
         ),
       ],

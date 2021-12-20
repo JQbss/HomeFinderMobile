@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_finder/common/layout/layout.dart';
+import 'package:home_finder/widget/layout/layout.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
 import 'package:home_finder/screens/home/home.dart';
 import 'package:home_finder/screens/home/login/login.dart';
