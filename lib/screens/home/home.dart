@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_finder/screens/home/login/login.dart';
+import 'package:home_finder/screens/home/register/register.dart';
 import 'package:home_finder/widget/custom_switch_button/custom_switch_button.dart';
 import 'package:home_finder/widget/custom_title/custom_title.dart';
 
@@ -79,7 +80,11 @@ class _Home extends State<Home> {
                 child: Login(),
               ),
             ),
-
+            if(isRight) const Expanded(
+            child: Padding(
+            padding: EdgeInsets.only(left: 50.0,right: 50,top: 20),
+            child: Register(),
+            )),
           ],
         ),
       ],

@@ -67,7 +67,14 @@ class _CustomSwitchButton extends State<CustomSwitchButton>{
                     backgroundColor: isLeft?MaterialStateProperty.all(Color(ThemeProvider.theme["darkGreen"])):MaterialStateProperty.all(Color(ThemeProvider.theme["lightGreen"])),
                   ),
                   onPressed: _buttonPressedLeftHandler,
-                  child: Text(widget.textLeft)
+                  child: Text(
+                      widget.textLeft.toLowerCase(),
+                      style: TextStyle(
+                        color: isLeft?Color(ThemeProvider.theme["whiteText"]):Color(ThemeProvider.theme["darkText"]),
+                        fontSize: 20.0,
+                      ),
+
+                  )
               ),
             ),
           ),
@@ -89,7 +96,12 @@ class _CustomSwitchButton extends State<CustomSwitchButton>{
 
                   ),
                   onPressed: _buttonPressedRightHandler,
-                  child: Text(widget.textRight)
+                  child: Text(widget.textRight.toLowerCase(),
+                    style: TextStyle(
+                      color: isRight?Color(ThemeProvider.theme["whiteText"]):Color(ThemeProvider.theme["darkText"]),
+                      fontSize: 20.0,
+                    ),
+                  )
               ),
             ),
           )

@@ -29,7 +29,7 @@ class _Login extends State<Login>{
           CustomTextFormField(controller: emailController,hint: "email"),
           Padding(
             padding: const EdgeInsets.only(top:15.0),
-            child: CustomTextFormField(controller: passwordController,hint: "password"),
+            child: CustomTextFormField(controller: passwordController,hint: "hasło"),
           ),
           Expanded(
               child: Align(

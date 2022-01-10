@@ -26,7 +26,13 @@ class CustomButton extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(Color(ThemeProvider.theme["darkGreen"])),
                   ),
                   onPressed: ()=>onPressed(),
-                  child: Text(text),
+                  child: Text(
+                    text.toLowerCase(),
+                    style: TextStyle(
+                      color: Color(ThemeProvider.theme["whiteText"]),
+                      fontSize: 20.0,
+                    ),
+                  ),
               ),
             ),
           ),

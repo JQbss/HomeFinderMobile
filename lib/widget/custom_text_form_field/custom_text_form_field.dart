@@ -40,10 +40,14 @@ class _CustomTextFormField extends State<CustomTextFormField>{
         ),
         filled: true,
         hintText: widget.hint,
-
+        contentPadding: const EdgeInsets.only(left: 20.0)
       ),
       validator: widget.validator,
-      style: const TextStyle(color: Colors.black),
+      style: TextStyle(
+        color: Color(ThemeProvider.theme["darkText"]),
+        fontSize: 20.0,
+
+      ),
     );
   }
 }
