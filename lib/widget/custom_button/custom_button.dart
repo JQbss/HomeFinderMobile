@@ -5,8 +5,9 @@ class CustomButton extends StatelessWidget {
 
   final String text;
   final Function onPressed;
+  final double? fontSize;
 
-  const CustomButton({Key? key, required this.onPressed, required this.text}) : super(key: key);
+  const CustomButton({Key? key, required this.onPressed, required this.text, this.fontSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class CustomButton extends StatelessWidget {
                     text.toLowerCase(),
                     style: TextStyle(
                       color: Color(ThemeProvider.theme["whiteText"]),
-                      fontSize: 20.0,
+                      fontSize: fontSize ?? 20.0,
                     ),
                   ),
               ),

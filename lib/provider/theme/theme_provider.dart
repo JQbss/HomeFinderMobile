@@ -12,7 +12,9 @@ class CustomThemes{
     "darkText":0xFF275954,
     "whiteText":0xFFFFFFFF,
     "lightGreen":0xFFB0D9CD,
-    "darkGreen":0xFF275954
+    "darkGreen":0xFF275954,
+    "errorRed":0xFFF26869,
+    "dividerBlack":0xFF000000,
   };
 
 }

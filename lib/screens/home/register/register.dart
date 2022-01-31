@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:home_finder/dao/auth_api.dart';
 import 'package:home_finder/widget/custom_button/custom_button.dart';
 import 'package:home_finder/widget/custom_checkbox/custom_checkbox.dart';
+import 'package:home_finder/widget/custom_error_text/custom_error_text.dart';
 import 'package:home_finder/widget/custom_text_form_field/custom_text_form_field.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  final Function isChanged;
+  const Register({Key? key, required this.isChanged}) : super(key: key);
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -16,15 +19,20 @@ class _RegisterState extends State<Register> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String emailValidation = "";
-  String passwordValidation="";
+  String passwordValidation = "";
+  String statuteValidation = "";
+  String privacyValidation = "";
   bool isStatute = false;
   bool isPrivacy = false;
 
-  registerHandler(){
-    print(_formKey.currentState!.validate());
+  AuthApi authApi = AuthApi();
+
+  registerHandler() async{
     setState((){
       emailValidation="";
       passwordValidation="";
+      privacyValidation="";
+      statuteValidation="";
     });
     if(emailController.text==""){
       setState(() {
@@ -35,6 +43,23 @@ class _RegisterState extends State<Register> {
       setState(() {
         passwordValidation = "Hasło nie może być puste";
       });
+    }
+    if(!isPrivacy){
+      setState((){
+        privacyValidation = "Musisz zaakceptować politykę prywatności";
+      });
+    }
+    if(!isStatute){
+      setState((){
+        statuteValidation = "Musisz zaakceptować regulamin";
+      });
+    }
+
+    if(_formKey.currentState!.validate()){
+      var req = await authApi.registration(emailController.text,passwordController.text);
+        if(req.statusCode==201){
+          widget.isChanged(true);
+        }
     }
   }
 
@@ -80,11 +105,23 @@ class _RegisterState extends State<Register> {
             ),
           ),
           Padding(
+            padding: statuteValidation!=""? const EdgeInsets.only(top: 15.0):const EdgeInsets.all(0.0),
+            child: CustomErrorText(
+              value: statuteValidation,
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.only(top:15.0),
             child: CustomCheckbox(
                 isChecked: isStatute,
                 checkboxText: "akceptuje regulamin aplikacji",
                 onCheckboxPressed: statuteHandler
+            ),
+          ),
+          Padding(
+            padding: privacyValidation!=""? const EdgeInsets.only(top: 15.0):const EdgeInsets.all(0.0),
+            child: CustomErrorText(
+              value: privacyValidation,
             ),
           ),
           Padding(

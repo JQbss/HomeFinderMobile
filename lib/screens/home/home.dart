@@ -34,6 +34,14 @@ class _Home extends State<Home> {
       isRight = true;
     });
   }
+  void changeState(bool isLogin){
+    setState((){
+      if(isLogin){
+        onLeftPressedHandler();
+      }
+    });
+
+  }
 
 
   @override
@@ -80,10 +88,10 @@ class _Home extends State<Home> {
                 child: Login(),
               ),
             ),
-            if(isRight) const Expanded(
+            if(isRight) Expanded(
             child: Padding(
-            padding: EdgeInsets.only(left: 50.0,right: 50,top: 20),
-            child: Register(),
+            padding: const EdgeInsets.only(left: 50.0,right: 50,top: 20),
+            child: Register(isChanged:changeState),
             )),
           ],
         ),

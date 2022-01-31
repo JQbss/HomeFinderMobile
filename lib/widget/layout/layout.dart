@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
 
 class Layout extends StatelessWidget {
@@ -8,6 +9,7 @@ class Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode (SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
