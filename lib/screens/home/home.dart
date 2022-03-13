@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:home_finder/dao/auth_api.dart';
+import 'package:home_finder/screens/announcement/home_announcement.dart';
 import 'package:home_finder/screens/home/login/login.dart';
 import 'package:home_finder/screens/home/register/register.dart';
 import 'package:home_finder/widget/custom_switch_button/custom_switch_button.dart';
@@ -8,6 +10,7 @@ import 'package:home_finder/widget/custom_title/custom_title.dart';
 class Home extends StatefulWidget{
 
   const Home({Key? key}):super(key: key);
+
 
   @override
   State<StatefulWidget> createState() => _Home();
@@ -20,7 +23,19 @@ class _Home extends State<Home> {
   TextEditingController passwordController = TextEditingController();
   bool isLeft = false;
   bool isRight = false;
-
+  @override
+  void initState(){
+    super.initState();
+    checkLoginHandler();
+  }
+  void checkLoginHandler() async {
+    if(await AuthApi.getToken()!=null){
+      Navigator.pushReplacement (
+        context,
+        MaterialPageRoute(builder: (context)=>const HomeAnnouncement()),
+      );
+    }
+  }
   void onLeftPressedHandler(){
     setState(() {
       isLeft=true;

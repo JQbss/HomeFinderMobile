@@ -21,7 +21,7 @@ class HomeFinder extends StatelessWidget {
       builder: (context){
         {
           return MaterialApp(
-              title: 'Flutter Demo',
+              title: 'Home Finder',
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
