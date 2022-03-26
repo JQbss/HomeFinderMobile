@@ -25,7 +25,7 @@ class HomeFinder extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              home: const Layout(widget: Home())
+              home: const Layout(widget: Home(), isNavbar: false,)
           );
         }
       }

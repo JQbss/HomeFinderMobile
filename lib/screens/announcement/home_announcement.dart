@@ -37,6 +37,7 @@ class _HomeAnnouncementState extends State<HomeAnnouncement> {
   @override
   Widget build(BuildContext context) {
     return Layout(
+        isNavbar: true,
         widget: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(

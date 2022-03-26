@@ -46,6 +46,7 @@ class _Login extends State<Login>{
         Navigator.pushReplacement (
             context,
             MaterialPageRoute(builder: (context)=>const HomeAnnouncement()),
+
         );
       }
     }
