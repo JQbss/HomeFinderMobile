@@ -30,6 +30,11 @@ class AuthApi extends BaseApi{
     return response;
   }
 
+  static void logout(){
+     storage.write(key: "token", value: null);
+  }
+
+
   static setToken(String token) async {
     await storage.write(key:'token', value:token);
   }

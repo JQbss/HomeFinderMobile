@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_finder/widget/layout/layout.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
 import 'package:home_finder/screens/home/home.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +24,7 @@ class HomeFinder extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              home: const Layout(widget: Home(), isNavbar: false,)
+              home:const Home()
           );
         }
       }

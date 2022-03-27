@@ -1,13 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
-import 'package:home_finder/widget/custom_button/custom_button.dart';
-import 'package:home_finder/widget/custom_description/custom_description.dart';
-import 'package:home_finder/widget/custom_dropdown_multiselect/custom_dropdown_multiselect.dart';
-import 'package:home_finder/widget/custom_text_form_field/custom_text_form_field.dart';
-import 'package:home_finder/widget/custom_title/custom_title.dart';
-import 'package:home_finder/widget/layout/layout.dart';
+import 'package:home_finder/screens/announcement/announcement_added/announcement_added.dart';
+import 'package:home_finder/screens/announcement/announcement_main.dart';
+import 'package:home_finder/screens/announcement/announcement_selected.dart';
+import 'package:home_finder/screens/profile/profile.dart';
 class HomeAnnouncement extends StatefulWidget {
   const HomeAnnouncement({Key? key}) : super(key: key);
 
@@ -16,208 +13,71 @@ class HomeAnnouncement extends StatefulWidget {
 }
 
 class _HomeAnnouncementState extends State<HomeAnnouncement> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController localizationController = TextEditingController();
 
-  TextEditingController priceFrom = TextEditingController();
-  TextEditingController priceTo = TextEditingController();
-  TextEditingController metersFrom = TextEditingController();
-  TextEditingController metersTo = TextEditingController();
-  List<String> test = ["test1", "test2"];
-  final List<String> selectedItems = [];
-  void _itemChange(String itemValue, bool isSelected) {
+  int index=0;
+  PageController pageController = PageController();
+
+  void navigationHandler(int newIndex){
+    pageController.jumpToPage(newIndex);
+  }
+
+  void indexHandler(int newIndex){
     setState(() {
-      if (isSelected) {
-        selectedItems.add(itemValue);
-      } else {
-        selectedItems.remove(itemValue);
-      }
+      index=newIndex;
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return Layout(
-        isNavbar: true,
-        widget: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Form(key: _formKey,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width-140,
-                              child: Column(
-                                children: [
-                                  CustomTextFormField(
-                                      controller: localizationController,
-                                      hint: "Wybierz lokalizację",
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 20.0),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 10.0),
-                                          child: SizedBox(
-                                            width:MediaQuery.of(context).size.width/2-100,
-                                            height: 30,
-                                            child: CustomButton(
-                                                fontSize: 14,
-                                                onPressed: openFilter,
-                                                text: "filtry"),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width:MediaQuery.of(context).size.width/2-50,
-                                          height: 30,
-                                          child: CustomButton(
-                                            fontSize: 14,
-                                            onPressed: ()=>{},
-                                            text: "zaawansowane"),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 90,
-                            height: 90,
-                            child: SvgPicture.asset('assets/logo.svg'),
-                          ),
-                        ],
-                ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Divider(
-                          color: Color(ThemeProvider.theme["dividerBlack"]),
-                          thickness: 2,
-                        ),
-                      )
-                    ],
-                  ),
-              )
-            ],
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: index,
+        type: BottomNavigationBarType.fixed,
+        onTap: navigationHandler,
+        backgroundColor: Color(ThemeProvider.theme["darkGreen"]),
+        unselectedItemColor: Color(ThemeProvider.theme["whiteText"]),
+        selectedItemColor: Color(ThemeProvider.theme["gradientDark"]),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
           ),
-        )
-    );
-
-  }
-
-  Future openFilter()=> showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const CustomTitle(value:"Podstawowe filtry"),
-      content: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: const CustomDescription(value: "Rodzaj zabudowy"),
-            ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: "Wybrane"
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
-            child: CustomDropdownMultiselect(items: test, text: "wybierz"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt),
+              label: "Dodane"
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: const CustomDescription(value: "Cena"),
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0,bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Od"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Do"),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: CustomTextFormField(
-                      controller: priceFrom
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3.1,
-                child: CustomTextFormField(
-                    controller: priceTo
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10,top: 10),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: const CustomDescription(value: "Powierzechnia (m\u{00B2})"),
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0,bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Od"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Do"),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: CustomTextFormField(
-                      controller: metersFrom
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3.1,
-                child: CustomTextFormField(
-                    controller: metersTo
-                ),
-              ),
-            ],
-          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "Profil"
+          )
         ],
       ),
-    ),
-  );
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: const Alignment(-2.0, -2),
+                end: const Alignment(-0.5, 0.5),
+                colors: <Color>[
+                  Color(ThemeProvider.theme['gradientDark']),
+                  Color(ThemeProvider.theme['gradientLight'])
+                ]
+            )
+        ),
+        child: PageView(
+          controller: pageController,
+          onPageChanged: indexHandler,
+          children: const [
+            AnnouncementMain(),
+            AnnouncementSelected(),
+            AnnouncementAdded(),
+            Profile(),
+          ],
+        ),
+      )
+    );
+  }
 }
