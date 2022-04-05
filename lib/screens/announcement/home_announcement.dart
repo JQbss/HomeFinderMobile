@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
 import 'package:home_finder/screens/announcement/announcement_added/announcement_added.dart';
-import 'package:home_finder/screens/announcement/announcement_main.dart';
-import 'package:home_finder/screens/announcement/announcement_selected.dart';
+import 'package:home_finder/screens/announcement/announcement_main/announcement_main.dart';
+import 'package:home_finder/screens/announcement/announcement_selected/announcement_selected.dart';
 import 'package:home_finder/screens/profile/profile.dart';
 class HomeAnnouncement extends StatefulWidget {
   const HomeAnnouncement({Key? key}) : super(key: key);

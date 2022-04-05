@@ -1,18 +1,104 @@
-class Announcement{
-  final String title;
-  final String description;
-  final String link;
+import 'package:home_finder/model/enums/announcement_additional_areas.dart';
+import 'package:home_finder/model/enums/announcement_categories.dart';
+import 'package:home_finder/model/enums/announcement_markets.dart';
+import 'package:home_finder/model/enums/announcement_statuses.dart';
+import 'package:home_finder/model/enums/level_of_building.dart';
 
-  Announcement(this.title,this.description,this.link);
+import '../enums/announcement_types.dart';
+import '../enums/number_of_rooms.dart';
+import '../enums/types_of_building.dart';
+
+class Announcement{
+  final String? uid;
+  final AnnouncementTypes? type;
+  final AnnouncementCategories? category;
+  final String? title;
+  final String? description;
+  final NumberOfRooms? numberOfRooms;
+  final LevelOfBuilding? level;
+  final bool? isFurnished;
+  final int? price;
+  final bool? isPriceNegotiable;
+  final TypesOfBuilding? typeOfBuilding;
+  final int? additionalRent;
+  final int? area;
+  final String? localization;
+  final String? sellerUid;
+  final List<String>? imageLinks;
+  final AnnouncementStatuses? status;
+  final int? yearOfBuilding;
+  final AnnouncementMarkets? announcementMarket;
+  final List<AnnouncementAdditionalAreas>? additionalAreas;
+  final String? link;
+
+  Announcement(
+      this.uid,
+      this.type,
+      this.category,
+      this.title,
+      this.description,
+      this.numberOfRooms,
+      this.level,
+      this.isFurnished,
+      this.price,
+      this.isPriceNegotiable,
+      this.typeOfBuilding,
+      this.additionalRent,
+      this.area,
+      this.localization,
+      this.sellerUid,
+      this.imageLinks,
+      this.status,
+      this.yearOfBuilding,
+      this.announcementMarket,
+      this.additionalAreas,
+      this.link
+      );
 
   Announcement.fromJson(Map<dynamic,dynamic> json)
-  : title=json['title'] as String,
-    description=json['description'] as String,
-    link = json['link'] as String;
+  : uid = json['Uid'],
+    type = json['type'],
+    category = json['category'],
+    title = json['title'],
+    description = json['description'],
+    numberOfRooms = json['numberOfRooms'],
+    level = json['level'],
+    isFurnished = json['isFurnished'],
+    price = json['price'],
+    isPriceNegotiable = json['isPriceNegotiable'],
+    typeOfBuilding = json['typeOfBuilding'],
+    additionalRent = json['additionalRent'],
+    area = json['area'],
+    localization = json['localization'],
+    sellerUid = json['sellerUid'],
+    imageLinks = json['imageLinks'],
+    status = json['status'],
+    yearOfBuilding = json['yearOfBuilding'],
+    announcementMarket = json['announcementMarket'],
+    additionalAreas = json['additionalAreas'],
+    link = json['link'];
 
   Map<dynamic,dynamic> toJson() => <dynamic,dynamic>{
-    'description':description,
+    'Uid':uid,
+    'type':type,
+    'category':category,
     'title':title,
-    'link':link
+    'description':description,
+    'numberOfRooms':numberOfRooms,
+    'level':level,
+    'isFurnished':isFurnished,
+    'price':price,
+    'isPriceNegotiable':isPriceNegotiable,
+    'typeOfBuilding':typeOfBuilding,
+    'additionalRent':additionalRent,
+    'area':area,
+    'localization':localization,
+    'sellerUid':sellerUid,
+    'imageLinks':imageLinks,
+    'status':status,
+    'yearOfBuilding':yearOfBuilding,
+    'announcementMarket':announcementMarket,
+    'additionalAreas':additionalAreas,
+    'link':link,
   };
 }

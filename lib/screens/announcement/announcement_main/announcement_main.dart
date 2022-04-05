@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:home_finder/dao/announcement_api.dart';
 
-import '../../provider/theme/theme_provider.dart';
-import '../../widget/custom_button/custom_button.dart';
-import '../../widget/custom_description/custom_description.dart';
-import '../../widget/custom_dropdown_multiselect/custom_dropdown_multiselect.dart';
-import '../../widget/custom_text_form_field/custom_text_form_field.dart';
-import '../../widget/custom_title/custom_title.dart';
+import '../../../model/enums/types_of_building.dart';
+import '../../../provider/theme/theme_provider.dart';
+import '../../../widget/custom_button/custom_button.dart';
+import '../../../widget/custom_description/custom_description.dart';
+import '../../../widget/custom_dropdown_multiselect/custom_dropdown_multiselect.dart';
+import '../../../widget/custom_text_form_field/custom_text_form_field.dart';
+import '../../../widget/custom_title/custom_title.dart';
 
 class AnnouncementMain extends StatefulWidget {
   const AnnouncementMain({Key? key}) : super(key: key);
@@ -25,7 +27,6 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   TextEditingController priceTo = TextEditingController();
   TextEditingController metersFrom = TextEditingController();
   TextEditingController metersTo = TextEditingController();
-  List<String> test = ["test1", "test2"];
   final List<String> selectedItems = [];
   void _itemChange(String itemValue, bool isSelected) {
     setState(() {
@@ -37,6 +38,16 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
     });
   }
 
+  @override
+  void initState(){
+    super.initState();
+    test();
+  }
+
+  void test()async{
+    print("here");
+    print(await AnnouncementApi().getAll());
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -124,7 +135,7 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
-            child: CustomDropdownMultiselect(items: test, text: "wybierz"),
+            child: CustomDropdownMultiselect(items: listOfBuildingTypes(), text: "wybierz"),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),

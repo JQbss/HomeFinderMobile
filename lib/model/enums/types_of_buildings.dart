@@ -1,3 +1,0 @@
-enum TypesOfBuildings{
-  Dom
-}
