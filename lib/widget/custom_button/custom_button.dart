@@ -6,8 +6,9 @@ class CustomButton extends StatelessWidget {
   final String text;
   final Function onPressed;
   final double? fontSize;
+  final Color? backgroundColor;
 
-  const CustomButton({Key? key, required this.onPressed, required this.text, this.fontSize}) : super(key: key);
+  const CustomButton({Key? key, required this.onPressed, required this.text, this.fontSize, this.backgroundColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class CustomButton extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
                         )
                     ),
-                    backgroundColor: MaterialStateProperty.all(Color(ThemeProvider.theme["darkGreen"])),
+                    backgroundColor: MaterialStateProperty.all(backgroundColor ?? Color(ThemeProvider.theme["darkGreen"])),
                   ),
                   onPressed: ()=>onPressed(),
                   child: Text(

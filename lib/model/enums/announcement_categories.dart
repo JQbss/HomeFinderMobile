@@ -1,8 +1,9 @@
 enum AnnouncementCategories{
   sale,
-  hiring
+  hiring,
+  exchange
 }
 
 List<String> listOfAnnouncementCategories(){
-  return ["sprzedaż", "wypożyczenie"];
+  return ["sprzedaż", "wynajem", "zamiana"];
 }

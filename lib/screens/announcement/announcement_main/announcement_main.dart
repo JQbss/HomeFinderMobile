@@ -27,16 +27,7 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   TextEditingController priceTo = TextEditingController();
   TextEditingController metersFrom = TextEditingController();
   TextEditingController metersTo = TextEditingController();
-  final List<String> selectedItems = [];
-  void _itemChange(String itemValue, bool isSelected) {
-    setState(() {
-      if (isSelected) {
-        selectedItems.add(itemValue);
-      } else {
-        selectedItems.remove(itemValue);
-      }
-    });
-  }
+  final List<String> selectedBuildingType = [];
 
   @override
   void initState(){
@@ -135,7 +126,7 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
-            child: CustomDropdownMultiselect(items: listOfBuildingTypes(), text: "wybierz"),
+            child: CustomDropdownMultiselect(items: listOfBuildingTypes(), text: "wybierz", selectedItems: selectedBuildingType),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),

@@ -7,12 +7,16 @@ class CustomTextFormField extends StatefulWidget{
   final TextEditingController controller;
   final String? hint;
   final String? Function(String?)? validator;
+  final double? padding;
+  final double? fontSize;
 
   const CustomTextFormField({
     Key? key,
     this.hint,
     required this.controller,
     this.validator,
+    this.padding,
+    this.fontSize
   }):super(key: key);
 
   @override
@@ -29,7 +33,10 @@ class _CustomTextFormField extends State<CustomTextFormField>{
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
+      maxLines: 1,
       decoration: InputDecoration(
+
+        isDense: true,
         fillColor: Color(ThemeProvider.theme["lightGreen"]),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
@@ -40,13 +47,12 @@ class _CustomTextFormField extends State<CustomTextFormField>{
         ),
         filled: true,
         hintText: widget.hint,
-        contentPadding: const EdgeInsets.only(left: 20.0)
+        contentPadding: EdgeInsets.only(left: 20,top: widget.padding??10,bottom: widget.padding??10,),
       ),
       validator: widget.validator,
       style: TextStyle(
         color: Color(ThemeProvider.theme["darkText"]),
-        fontSize: 20.0,
-
+        fontSize: widget.fontSize ?? 20.0,
       ),
     );
   }
