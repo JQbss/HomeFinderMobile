@@ -9,6 +9,7 @@ class CustomTextFormField extends StatefulWidget{
   final String? Function(String?)? validator;
   final double? padding;
   final double? fontSize;
+  final int? maxLines;
 
   const CustomTextFormField({
     Key? key,
@@ -16,7 +17,8 @@ class CustomTextFormField extends StatefulWidget{
     required this.controller,
     this.validator,
     this.padding,
-    this.fontSize
+    this.fontSize,
+    this.maxLines
   }):super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class _CustomTextFormField extends State<CustomTextFormField>{
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      maxLines: 1,
+      maxLines: widget.maxLines??1,
       decoration: InputDecoration(
 
         isDense: true,

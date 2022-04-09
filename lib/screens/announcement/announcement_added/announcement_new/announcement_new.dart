@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:home_finder/dao/announcement_api.dart';
 import 'package:home_finder/widget/custom_button/custom_button.dart';
 import 'package:home_finder/widget/custom_description/custom_description.dart';
 import 'package:home_finder/widget/custom_text_form_field/custom_text_form_field.dart';
 import 'package:home_finder/widget/custom_title/custom_title.dart';
 
+import '../../../../model/announcement/announcement.dart';
 import '../../../../model/enums/announcement_categories.dart';
 import '../../../../model/enums/types_of_building.dart';
 import '../../../../provider/theme/theme_provider.dart';
@@ -19,12 +21,16 @@ class AnnouncementNew extends StatefulWidget {
 }
 
 class _AnnouncementNewState extends State<AnnouncementNew> {
+
+  AnnouncementApi announcementApi = AnnouncementApi();
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController localizationController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
   TextEditingController areaController = TextEditingController();
-  bool isPriceNegotiable=false;
+  TextEditingController descriptionController = TextEditingController();
+  bool isPriceNegotiable = false;
+  bool isFurnished = false;
 
   final List<String> selectedBuildingType=[];
   int selectedCategory=0;
@@ -39,6 +45,28 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
     setState(() {
       isPriceNegotiable=newValue??false;
     });
+  }
+
+  void furnishedHandler(bool? newValue){
+    setState(() {
+      isFurnished = newValue??false;
+    });
+  }
+
+  void addAnnouncementHandler() async{
+    Announcement announcement = Announcement(
+      localization: localizationController.text,
+      price: int.parse(priceController.text),
+      area: double.parse(areaController.text),
+      description: descriptionController.text,
+      isPriceNegotiable: isPriceNegotiable,
+      isFurnished: isFurnished,
+      category: AnnouncementCategories.values[selectedCategory],
+    );
+    var req = await announcementApi.createAnnouncement(announcement);
+    if(req.statusCode==201){
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -77,6 +105,7 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
                 child: Form(
                   key: _formKey,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const CustomDescription(value: "Dane podstawowe"),
                         Divider(
@@ -84,15 +113,12 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
                           thickness: 2,
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
+                          padding: EdgeInsets.only(top: 10.0, bottom: 10),
                           child: CustomDescription(value: "Rodzaj zabudowy"),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top:10.0),
-                          child: CustomDropdownMultiselect(items: listOfBuildingTypes(), text: "wybierz rodzaj zabudowy", fontSize: 14, height: 30,selectedItems: selectedBuildingType),
-                        ),
+                        CustomDropdownMultiselect(items: listOfBuildingTypes(), text: "wybierz rodzaj zabudowy", fontSize: 14, height: 30,selectedItems: selectedBuildingType),
                         const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
+                          padding: EdgeInsets.only(top: 10.0, bottom: 10),
                           child: CustomDescription(value: "Lokalizacja"),
                         ),
                         CustomTextFormField(controller: localizationController, hint: "wprowadź lokalizację",fontSize: 14,padding: 8),
@@ -108,7 +134,7 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
                               title: Padding(
                                 padding: EdgeInsets.zero,
                                 child: Transform.translate(
-                                  offset: Offset(-15,0),
+                                  offset: const Offset(-15,0),
                                   child: Text(
                                     item,
                                     style:TextStyle(
@@ -131,15 +157,17 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const CustomDescription(value: "Cena"),
-                                    CustomTextFormField(controller: numberController, hint: "wprowadź cenę",fontSize: 14,padding: 8),
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 5),
+                                      child: CustomDescription(value: "Cena"),
+                                    ),
+                                    CustomTextFormField(controller: priceController, hint: "wprowadź cenę",fontSize: 14,padding: 8),
                                   ],
                                 )
                             ),
                             Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 15.0),
-
                                   child: CheckboxListTile(
                                       value: isPriceNegotiable,
                                       onChanged: negotiableHandler,
@@ -159,14 +187,14 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
                           ],
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
+                          padding: EdgeInsets.only(top: 10.0, bottom: 5),
                           child: CustomDescription(value: "Powierzchnia (m\u{00B2})"),
                         ),
-                        CustomTextFormField(controller: areaController, hint: "wprowadź powierzchnię]",fontSize: 14,padding: 8),
+                        CustomTextFormField(controller: areaController, hint: "wprowadź powierzchnię",fontSize: 14,padding: 8),
                         CheckboxListTile(
                           contentPadding: EdgeInsets.zero,
-                          value: isPriceNegotiable,
-                          onChanged: negotiableHandler,
+                          value: isFurnished,
+                          onChanged: furnishedHandler,
                           title:Transform.translate(
                             offset: const Offset(-15,0),
                             child: Text("Czy umeblowane?",
@@ -178,21 +206,27 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
                           ),
                           controlAffinity: ListTileControlAffinity.leading,
                         ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10.0, bottom: 5),
+                          child: CustomDescription(value: "Opis"),
+                        ),
+                        CustomTextFormField(controller: descriptionController,fontSize: 14,padding: 8, maxLines: 6),
                         Expanded(
                           child: Align(
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: Row(
                                 children: [
-                                  Expanded(child: CustomButton(onPressed: ()=>{}, text: "anuluj", backgroundColor: Color(ThemeProvider.theme["errorRed"]))),
+                                  Expanded(child: CustomButton(onPressed: ()=>{Navigator.of(context).pop()}, text: "anuluj", backgroundColor: Color(ThemeProvider.theme["errorRed"]))),
                                   const SizedBox(width: 20),
-                                  Expanded(child: CustomButton(onPressed: ()=>{}, text: "dodaj"))
+                                  Expanded(child: CustomButton(onPressed: addAnnouncementHandler, text: "dodaj"))
                                 ],
                               ),
                             ),
                             alignment: Alignment.bottomCenter,
                           ),
-                        )
+                        ),
+
                       ],
                     ),
                 ),

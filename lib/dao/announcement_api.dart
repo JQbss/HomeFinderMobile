@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:home_finder/dao/auth_api.dart';
 import 'package:home_finder/dao/base_api.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,5 +18,15 @@ class AnnouncementApi extends BaseApi{
     }else{
       throw Exception("Wystąpił błąd");
     }
+  }
+
+  Future<http.Response> createAnnouncement(Announcement announcement) async {
+
+    final String token = (await AuthApi.getToken())??"";
+    Map<String,String> newHeader = {'Content-Type': 'application/json', HttpHeaders.authorizationHeader: 'Bearer $token'};
+    http.Response response = await http.post(
+        super.announcementUri, headers: newHeader, body: jsonEncode(announcement.toJson()));
+
+    return response;
   }
 }

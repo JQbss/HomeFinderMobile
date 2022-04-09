@@ -21,7 +21,7 @@ class Announcement{
   final bool? isPriceNegotiable;
   final TypesOfBuilding? typeOfBuilding;
   final int? additionalRent;
-  final int? area;
+  final double? area;
   final String? localization;
   final String? sellerUid;
   final List<String>? imageLinks;
@@ -31,29 +31,29 @@ class Announcement{
   final List<AnnouncementAdditionalAreas>? additionalAreas;
   final String? link;
 
-  Announcement(
-      this.uid,
-      this.type,
-      this.category,
-      this.title,
-      this.description,
-      this.numberOfRooms,
-      this.level,
-      this.isFurnished,
-      this.price,
-      this.isPriceNegotiable,
-      this.typeOfBuilding,
-      this.additionalRent,
-      this.area,
-      this.localization,
-      this.sellerUid,
-      this.imageLinks,
-      this.status,
-      this.yearOfBuilding,
-      this.announcementMarket,
-      this.additionalAreas,
-      this.link
-      );
+  Announcement({
+    this.uid,
+    this.type,
+    this.category,
+    this.title,
+    this.description,
+    this.numberOfRooms,
+    this.level,
+    this.isFurnished,
+    this.price,
+    this.isPriceNegotiable,
+    this.typeOfBuilding,
+    this.additionalRent,
+    this.area,
+    this.localization,
+    this.sellerUid,
+    this.imageLinks,
+    this.status,
+    this.yearOfBuilding,
+    this.announcementMarket,
+    this.additionalAreas,
+    this.link
+  });
 
   Announcement.fromJson(Map<dynamic,dynamic> json)
   : uid = json['Uid'],
@@ -80,24 +80,24 @@ class Announcement{
 
   Map<dynamic,dynamic> toJson() => <dynamic,dynamic>{
     'Uid':uid,
-    'type':type,
-    'category':category,
+    'type':type?.index,
+    'category':category?.index,
     'title':title,
     'description':description,
-    'numberOfRooms':numberOfRooms,
-    'level':level,
+    'numberOfRooms':numberOfRooms?.index,
+    'level':level?.index,
     'isFurnished':isFurnished,
     'price':price,
     'isPriceNegotiable':isPriceNegotiable,
-    'typeOfBuilding':typeOfBuilding,
+    'typeOfBuilding':typeOfBuilding?.index,
     'additionalRent':additionalRent,
     'area':area,
     'localization':localization,
     'sellerUid':sellerUid,
     'imageLinks':imageLinks,
-    'status':status,
+    'status':status?.index,
     'yearOfBuilding':yearOfBuilding,
-    'announcementMarket':announcementMarket,
+    'announcementMarket':announcementMarket?.index,
     'additionalAreas':additionalAreas,
     'link':link,
   };
