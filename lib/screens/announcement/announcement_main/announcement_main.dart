@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_finder/dao/announcement_api.dart';
+import 'package:home_finder/model/announcement/announcement.dart';
+import 'package:home_finder/widget/announcemet_widget/announcement_widget.dart';
 
 import '../../../model/enums/types_of_building.dart';
 import '../../../provider/theme/theme_provider.dart';
@@ -36,8 +38,8 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   }
 
   void test()async{
-    print("here");
-    print(await AnnouncementApi().getAll());
+    List<Announcement> announcement = await AnnouncementApi().getAll();
+    print(announcement[0].area);
   }
   @override
   Widget build(BuildContext context) {
@@ -104,6 +106,13 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
                     thickness: 2,
                   ),
                 )
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                AnnouncementWidget(shortDesc: "krótki opis", price: 1211, area: 45, address: "Toruń Gagarina 11")
               ],
             ),
           )
@@ -180,6 +189,7 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
             ),
           ),
           Row(
+
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 10.0,bottom: 5),

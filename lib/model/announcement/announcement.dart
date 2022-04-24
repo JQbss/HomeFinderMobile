@@ -56,19 +56,19 @@ class Announcement{
   });
 
   Announcement.fromJson(Map<dynamic,dynamic> json)
-  : uid = json['Uid'],
+  : uid = json['uid'],
     type = json['type'],
-    category = json['category'],
+    category = AnnouncementCategories.values[json['category']??0],
     title = json['title'],
     description = json['description'],
-    numberOfRooms = json['numberOfRooms'],
+    numberOfRooms = NumberOfRooms.values[json['numberOfRooms']??0],
     level = json['level'],
     isFurnished = json['isFurnished'],
     price = json['price'],
     isPriceNegotiable = json['isPriceNegotiable'],
     typeOfBuilding = json['typeOfBuilding'],
     additionalRent = json['additionalRent'],
-    area = json['area'],
+    area = json['area']?.toDouble(),
     localization = json['localization'],
     sellerUid = json['sellerUid'],
     imageLinks = json['imageLinks'],

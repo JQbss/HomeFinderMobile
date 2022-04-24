@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
 
+
 class CustomDropdownMultiselect extends StatefulWidget {
   final List<String> items;
   final String text;
@@ -73,7 +74,7 @@ class _CustomDropdownMultiselectState extends State<CustomDropdownMultiselect> {
                   ),
               )
         );
-    });
+      });
     }
   );
 }

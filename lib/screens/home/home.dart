@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_finder/dao/auth_api.dart';
 import 'package:home_finder/screens/announcement/home_announcement.dart';
@@ -62,7 +63,9 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.bottom]);
     return Scaffold(
+      
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

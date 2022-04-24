@@ -8,6 +8,12 @@ enum TypesOfBuilding{
   another
 }
 
+final buildingTypes=["blok", "kamienica", "dom wolnostojący", "szeregowiec", "apartamentowiec", "loft", "pozostałe"];
+
 List<String> listOfBuildingTypes(){
-  return ["blok", "kamienica", "dom wolnostojący", "szeregowiec", "apartamentowiec", "loft", "pozostałe"];
+  return buildingTypes;
+}
+
+String getBuildingType(int index){
+  return buildingTypes[index];
 }

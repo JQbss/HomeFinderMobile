@@ -12,6 +12,7 @@ class HomeFinder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MultiProvider (
+
     providers: [
       ChangeNotifierProvider(create: (context)=>ThemeProvider()),
     ],

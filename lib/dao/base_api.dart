@@ -6,3 +6,4 @@ class BaseApi{
   Map<String,String> headers = {"Content-Type": "application/json; charset=UTF-8"};
   Map<String,String> token = {"Content-Type": "application/json; charset=UTF-8" };
 }
+

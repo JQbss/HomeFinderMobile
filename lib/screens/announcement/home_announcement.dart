@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
 import 'package:home_finder/screens/announcement/announcement_added/announcement_added.dart';
 import 'package:home_finder/screens/announcement/announcement_main/announcement_main.dart';
@@ -29,6 +30,7 @@ class _HomeAnnouncementState extends State<HomeAnnouncement> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.bottom]);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,

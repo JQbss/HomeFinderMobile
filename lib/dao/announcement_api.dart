@@ -8,13 +8,13 @@ import 'package:http/http.dart' as http;
 import '../model/announcement/announcement.dart';
 
 class AnnouncementApi extends BaseApi{
-  Future<Announcement> getAll() async {
+  Future<List<Announcement>> getAll() async {
     http.Response response = await http.get(
         super.announcementUri, headers: super.headers);
 
     if(response.statusCode==200){
-      print(response.body);
-      return Announcement.fromJson(jsonDecode(response.body));
+      final result = json.decode(response.body).cast<Map<String, dynamic>>();
+      return result.map<Announcement>((json)=>Announcement.fromJson(json)).toList();
     }else{
       throw Exception("Wystąpił błąd");
     }
