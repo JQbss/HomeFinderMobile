@@ -66,7 +66,7 @@ class Announcement{
     isFurnished = json['isFurnished'],
     price = json['price'],
     isPriceNegotiable = json['isPriceNegotiable'],
-    typeOfBuilding = json['typeOfBuilding'],
+    typeOfBuilding = TypesOfBuilding.values[json['typeOfBuilding']??0],
     additionalRent = json['additionalRent'],
     area = json['area']?.toDouble(),
     localization = json['localization'],

@@ -30,21 +30,20 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   TextEditingController metersFrom = TextEditingController();
   TextEditingController metersTo = TextEditingController();
   final List<String> selectedBuildingType = [];
-
+  final List<Announcement> list = [];
   @override
   void initState(){
     super.initState();
-    test();
-  }
-
-  void test()async{
-    List<Announcement> announcement = await AnnouncementApi().getAll();
-    print(announcement[0].area);
+    AnnouncementApi().getAll().then((value) => {
+      setState(() {
+        list.addAll(value);
+      }),
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
       child: Column(
         children: [
           Form(key: _formKey,
@@ -112,7 +111,8 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
           Expanded(
             child: ListView(
               children: [
-                AnnouncementWidget(shortDesc: "krótki opis", price: 1211, area: 45, address: "Toruń Gagarina 11")
+                for(int i=0; i<list.length; i++)
+                  AnnouncementWidget(shortDesc: list[i].title, price: list[i].price, area: list[i].area, address: list[i].localization)
               ],
             ),
           )

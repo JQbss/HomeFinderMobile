@@ -67,7 +67,6 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
     if(req.statusCode==201){
       Navigator.of(context).pop();
     }
-    print(req.statusCode);
   }
 
   @override
