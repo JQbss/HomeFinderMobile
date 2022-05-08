@@ -3,18 +3,21 @@ import 'dart:io';
 
 import 'package:home_finder/dao/auth_api.dart';
 import 'package:home_finder/dao/base_api.dart';
+import 'package:home_finder/model/announcement_response/announcement_response.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/announcement/announcement.dart';
 
 class AnnouncementApi extends BaseApi{
-  Future<List<Announcement>> getAll() async {
+  Future<AnnouncementResponse> getAll() async {
     http.Response response = await http.get(
         super.announcementUri, headers: super.headers);
 
     if(response.statusCode==200){
       final result = json.decode(response.body).cast<Map<String, dynamic>>();
-      return result.map<Announcement>((json)=>Announcement.fromJson(json)).toList();
+      AnnouncementResponse announcementResponse = AnnouncementResponse.fromJson(result[0]);
+      print(announcementResponse.pagination.limit);
+      return announcementResponse;
     }else{
       throw Exception("Wystąpił błąd");
     }

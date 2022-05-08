@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:home_finder/dao/announcement_api.dart';
 import 'package:home_finder/model/announcement/announcement.dart';
 import 'package:home_finder/widget/announcemet_widget/announcement_widget.dart';
+import 'package:home_finder/widget/custom_pagination/custom_pagination.dart';
 
 import '../../../model/enums/types_of_building.dart';
 import '../../../provider/theme/theme_provider.dart';
@@ -36,7 +37,7 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
     super.initState();
     AnnouncementApi().getAll().then((value) => {
       setState(() {
-        list.addAll(value);
+        list.addAll(value.announcements);
       }),
     });
   }
@@ -115,7 +116,8 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
                   AnnouncementWidget(shortDesc: list[i].title, price: list[i].price, area: list[i].area, address: list[i].localization)
               ],
             ),
-          )
+          ),
+          CustomPagination(),
         ],
       ),
     );
