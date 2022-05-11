@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_finder/dao/announcement_api.dart';
+import 'package:home_finder/dao/user_api.dart';
 import 'package:home_finder/model/announcement/announcement.dart';
 import 'package:home_finder/model/announcement_response/announcement_response.dart';
 import 'package:home_finder/model/pagination/pagination.dart';
@@ -37,12 +38,14 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   Pagination pagination = Pagination(currentPage: 0, limit: 1, totalItems: 0, totalPages: 0);
   @override
   void initState(){
+
     getAnnouncementHandler({"limit":"1"});
     super.initState();
   }
 
   getAnnouncementHandler(Map<String,dynamic>? parameters)async{
     AnnouncementResponse response = await AnnouncementApi().getAll(parameters);
+    await UserApi().getUser();
     setState(() {
       pagination = response.pagination;
       list = response.announcements;
@@ -128,7 +131,7 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
             child: ListView(
               children: [
                 for(int i=0; i<list.length; i++)
-                  AnnouncementWidget(shortDesc: list[i].title, price: list[i].price, area: list[i].area, address: list[i].localization)
+                  AnnouncementWidget(shortDesc: list[i].title, price: list[i].price, area: list[i].area, address: list[i].address?.miejscowosc)
               ],
             ),
           ),

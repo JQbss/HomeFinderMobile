@@ -34,6 +34,12 @@ class AuthApi extends BaseApi{
      storage.write(key: "token", value: null);
   }
 
+  static setUid(String uid) async{
+     await storage.write(key: 'uid', value: uid);
+  }
+  static Future<String?> getUid() async {
+    return await storage.read(key: 'uid');
+  }
 
   static setToken(String token) async {
     await storage.write(key:'token', value:token);

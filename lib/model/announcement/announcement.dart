@@ -1,3 +1,4 @@
+import 'package:home_finder/model/address/address.dart';
 import 'package:home_finder/model/enums/announcement_additional_areas.dart';
 import 'package:home_finder/model/enums/announcement_categories.dart';
 import 'package:home_finder/model/enums/announcement_markets.dart';
@@ -22,13 +23,13 @@ class Announcement{
   final TypesOfBuilding? typeOfBuilding;
   final int? additionalRent;
   final double? area;
-  final String? localization;
   final String? sellerUid;
   final List<String>? imageLinks;
   final AnnouncementStatuses? status;
   final int? yearOfBuilding;
   final AnnouncementMarkets? announcementMarket;
   final List<AnnouncementAdditionalAreas>? additionalAreas;
+  final Address? address;
   final String? link;
 
   Announcement({
@@ -45,14 +46,14 @@ class Announcement{
     this.typeOfBuilding,
     this.additionalRent,
     this.area,
-    this.localization,
     this.sellerUid,
     this.imageLinks,
     this.status,
     this.yearOfBuilding,
     this.announcementMarket,
     this.additionalAreas,
-    this.link
+    this.address,
+    this.link,
   });
 
   Announcement.fromJson(Map<dynamic,dynamic> json)
@@ -69,12 +70,12 @@ class Announcement{
     typeOfBuilding = TypesOfBuilding.values[json['typeOfBuilding']??0],
     additionalRent = json['additionalRent'],
     area = json['area']?.toDouble(),
-    localization = json['localization'],
     sellerUid = json['sellerUid'],
     imageLinks = json['imageLinks'],
     status = json['status'],
     yearOfBuilding = json['yearOfBuilding'],
     announcementMarket = json['announcementMarket'],
+    address=Address.fromJson(json['address']),
     additionalAreas = json['additionalAreas'],
     link = json['link'];
 
@@ -92,7 +93,7 @@ class Announcement{
     'typeOfBuilding':typeOfBuilding?.index,
     'additionalRent':additionalRent,
     'area':area,
-    'localization':localization,
+    'address':address,
     'sellerUid':sellerUid,
     'imageLinks':imageLinks,
     'status':status?.index,

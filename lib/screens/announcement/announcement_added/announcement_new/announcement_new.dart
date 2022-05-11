@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_finder/dao/announcement_api.dart';
+import 'package:home_finder/model/address/address.dart';
 import 'package:home_finder/widget/custom_button/custom_button.dart';
 import 'package:home_finder/widget/custom_description/custom_description.dart';
 import 'package:home_finder/widget/custom_text_form_field/custom_text_form_field.dart';
@@ -53,8 +54,11 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
   }
 
   void addAnnouncementHandler() async{
+    Address address = Address(
+      miejscowosc: localizationController.text,
+    );
     Announcement announcement = Announcement(
-      localization: localizationController.text,
+      address: address,
       price: int.parse(priceController.text),
       area: double.parse(areaController.text),
       description: descriptionController.text,

@@ -43,6 +43,7 @@ class _Login extends State<Login>{
       if (req.statusCode == 200) {
         Map<String,dynamic> json = jsonDecode(req.body);
         await AuthApi.setToken(json['idToken']);
+        await AuthApi.setUid(json['localId']);
         Navigator.pushReplacement (
             context,
             MaterialPageRoute(builder: (context)=>const HomeAnnouncement()),
