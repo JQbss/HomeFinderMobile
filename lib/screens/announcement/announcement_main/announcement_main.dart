@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_finder/dao/announcement_api.dart';
 import 'package:home_finder/model/announcement/announcement.dart';
+import 'package:home_finder/model/announcement_response/announcement_response.dart';
+import 'package:home_finder/model/pagination/pagination.dart';
 import 'package:home_finder/widget/announcemet_widget/announcement_widget.dart';
 import 'package:home_finder/widget/custom_pagination/custom_pagination.dart';
 
@@ -31,16 +33,29 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   TextEditingController metersFrom = TextEditingController();
   TextEditingController metersTo = TextEditingController();
   final List<String> selectedBuildingType = [];
-  final List<Announcement> list = [];
+  List<Announcement> list = [];
+  Pagination pagination = Pagination(currentPage: 0, limit: 1, totalItems: 0, totalPages: 0);
   @override
   void initState(){
+    getAnnouncementHandler({"limit":"1"});
     super.initState();
-    AnnouncementApi().getAll().then((value) => {
-      setState(() {
-        list.addAll(value.announcements);
-      }),
+  }
+
+  getAnnouncementHandler(Map<String,dynamic>? parameters)async{
+    AnnouncementResponse response = await AnnouncementApi().getAll(parameters);
+    setState(() {
+      pagination = response.pagination;
+      list = response.announcements;
     });
   }
+
+  changePageHandler(int newVal) async{
+    await getAnnouncementHandler({"page":newVal.toString(), "limit":"1"});
+    CustomPagination.globalKey.currentState?.pagination=pagination;
+    CustomPagination.globalKey.currentState?.getButtonsValues();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -117,7 +132,8 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
               ],
             ),
           ),
-          CustomPagination(),
+          pagination.totalPages>0?
+          CustomPagination(pagination: pagination, changePage: (newVal)=>{changePageHandler(newVal)}):const SizedBox(),
         ],
       ),
     );
