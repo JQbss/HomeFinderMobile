@@ -24,13 +24,14 @@ class Announcement{
   final int? additionalRent;
   final double? area;
   final String? sellerUid;
-  final List<String>? imageLinks;
+  final List<dynamic>? imageLinks;
   final AnnouncementStatuses? status;
   final int? yearOfBuilding;
   final AnnouncementMarkets? announcementMarket;
   final List<AnnouncementAdditionalAreas>? additionalAreas;
   final Address? address;
   final String? link;
+  late bool isFavorite;
 
   Announcement({
     this.uid,
@@ -54,6 +55,7 @@ class Announcement{
     this.additionalAreas,
     this.address,
     this.link,
+    required this.isFavorite
   });
 
   Announcement.fromJson(Map<dynamic,dynamic> json)
@@ -75,9 +77,11 @@ class Announcement{
     status = json['status'],
     yearOfBuilding = json['yearOfBuilding'],
     announcementMarket = json['announcementMarket'],
-    address=Address.fromJson(json['address']),
+    address=json['address']!=null?Address.fromJson(json['address']):null,
     additionalAreas = json['additionalAreas'],
-    link = json['link'];
+    link = json['link'],
+    isFavorite = json['isFavorite']??false
+  ;
 
   Map<dynamic,dynamic> toJson() => <dynamic,dynamic>{
     'Uid':uid,

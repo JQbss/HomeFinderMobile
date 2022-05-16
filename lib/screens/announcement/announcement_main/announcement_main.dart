@@ -38,14 +38,12 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   Pagination pagination = Pagination(currentPage: 0, limit: 1, totalItems: 0, totalPages: 0);
   @override
   void initState(){
-
-    getAnnouncementHandler({"limit":"1"});
+    getAnnouncementHandler({"limit":"10"});
     super.initState();
   }
 
   getAnnouncementHandler(Map<String,dynamic>? parameters)async{
     AnnouncementResponse response = await AnnouncementApi().getAll(parameters);
-    await UserApi().getUser();
     setState(() {
       pagination = response.pagination;
       list = response.announcements;
@@ -53,10 +51,18 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   }
 
   changePageHandler(int newVal) async{
-    await getAnnouncementHandler({"page":newVal.toString(), "limit":"1"});
+    await getAnnouncementHandler({"page":newVal.toString(), "limit":"10"});
     CustomPagination.globalKey.currentState?.pagination=pagination;
     CustomPagination.globalKey.currentState?.getButtonsValues();
 
+  }
+
+  addToFavoriteHandler(int index){
+    setState(() {
+      UserApi().addToFavorite(list[index].uid??"").then((value) {
+        list[index].isFavorite=!list[index].isFavorite;
+      });
+    });
   }
 
   @override
@@ -131,7 +137,15 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
             child: ListView(
               children: [
                 for(int i=0; i<list.length; i++)
-                  AnnouncementWidget(shortDesc: list[i].title, price: list[i].price, area: list[i].area, address: list[i].address?.miejscowosc)
+                  AnnouncementWidget(shortDesc: list[i].title,
+                    price: list[i].price,
+                    area: list[i].area,
+                    address: list[i].address?.miejscowosc,
+                    imageUrl: list[i].imageLinks!=null?list[i].imageLinks![0]:null,
+                    isFavorite: list[i].isFavorite,
+                    favoriteHandler: ()=>{addToFavoriteHandler(i)},
+
+                  )
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:home_finder/provider/theme/theme_provider.dart';
 import 'package:home_finder/widget/custom_description/custom_description.dart';
@@ -9,7 +10,10 @@ class AnnouncementWidget extends StatefulWidget {
   final int? price;
   final double? area;
   final String? address;
-  const AnnouncementWidget({Key? key, this.imageUrl, required this.shortDesc, required this.price, required this.area, required this.address}) : super(key: key);
+  final bool isFavorite;
+  final void Function() favoriteHandler;
+  const AnnouncementWidget({Key? key, this.imageUrl, required this.shortDesc,
+    required this.price, required this.area, required this.address, required this.isFavorite, required this.favoriteHandler}) : super(key: key);
 
   @override
   State<AnnouncementWidget> createState() => _AnnouncementWidgetState();
@@ -25,13 +29,37 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Color(ThemeProvider.theme["lightGreen"]),
-                    borderRadius: const BorderRadius.only(topRight: Radius.circular(20.0)),
-                ),
-                child: Icon(Icons.hide_image_outlined),),
+              child: Stack(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        color: Color(ThemeProvider.theme["lightGreen"]),
+                        borderRadius: const BorderRadius.only(topRight: Radius.circular(20.0)),)
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: widget.imageUrl!=null?Image.network(widget.imageUrl!):const Icon(Icons.hide_image_outlined)
+                    ),
+                  ),
+                  Positioned(
+                    right: 5,
+                    top: 3,
+                    child: IconButton(
+                      icon: widget.isFavorite?const Icon(
+                        Icons.favorite,
+                        size: 35,
+                      ):const Icon(
+                        Icons.favorite_border,
+                        size: 35,
+                      ),
+                      onPressed: widget.favoriteHandler,
+                    )
+                  )
+                ],
+              ),
             ),
             Container(
               decoration: BoxDecoration(
@@ -44,7 +72,7 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                   children: [
                     Row(
                       children: [
-                        CustomDescription(value: widget.shortDesc??""),
+                        Flexible(child: CustomDescription(value: widget.shortDesc??"")),
                       ],
                     ),
                     Row(

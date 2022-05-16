@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_finder/dao/announcement_api.dart';
+import 'package:home_finder/dao/auth_api.dart';
 import 'package:home_finder/model/address/address.dart';
 import 'package:home_finder/widget/custom_button/custom_button.dart';
 import 'package:home_finder/widget/custom_description/custom_description.dart';
@@ -54,7 +55,7 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
   }
 
   void addAnnouncementHandler() async{
-    Address address = Address(
+   Address address = Address(
       miejscowosc: localizationController.text,
     );
     Announcement announcement = Announcement(
@@ -65,7 +66,9 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
       isPriceNegotiable: isPriceNegotiable,
       isFurnished: isFurnished,
       category: AnnouncementCategories.values[selectedCategory],
-      typeOfBuilding: TypesOfBuilding.values[selectedBuildingType]
+      typeOfBuilding: TypesOfBuilding.values[selectedBuildingType],
+      isFavorite: false,
+      sellerUid: await AuthApi.getUid()
     );
     var req = await announcementApi.createAnnouncement(announcement);
     if(req.statusCode==201){

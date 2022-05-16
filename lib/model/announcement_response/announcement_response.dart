@@ -16,8 +16,3 @@ class AnnouncementResponse{
       ),
       announcements = json['items'].map<Announcement>((json)=>Announcement.fromJson(json)).toList();
 }
-
-//pagination.totalPages = json['totalPages'],
-//       pagination.limit = json['limit'],
-//       pagination.totalItems = json['totalItems'],
-//       pagination.currentPage = json['currentPage'],

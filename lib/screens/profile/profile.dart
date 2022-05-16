@@ -37,6 +37,33 @@ class _ProfileState extends State<Profile> {
   TextEditingController numerDomuController = TextEditingController();
   TextEditingController numerMieszkaniaController = TextEditingController();
 
+
+  @override
+  void initState() {
+    super.initState();
+    loadCurrentDataHandler();
+  }
+
+  void loadCurrentDataHandler()async{
+    UserApi().getUser().then((user) {
+      setState(() {
+        userNameController.text=user.username??"";
+        firstNameController.text=user.firstName??"";
+        lastNameController.text=user.lastName??"";
+        phoneNumberController.text=user.phoneNumber??"";
+        wojewodztwoController.text=user.address?.wojewodztwo??"";
+        powiatController.text=user.address?.powiat??"";
+        miejscowoscController.text=user.address?.miejscowosc??"";
+        gminaController.text=user.address?.gmina??"";
+        kodPocztowyController.text=user.address?.kodPocztowy??"";
+        ulicaController.text=user.address?.ulica??"";
+        numerDomuController.text=user.address?.numerDomu??"";
+        numerMieszkaniaController.text=user.address?.numerMieszkania??"";
+
+      });
+    });
+  }
+
   void logoutHandler(){
     AuthApi.logout();
     Navigator.pushReplacement (
@@ -64,10 +91,10 @@ class _ProfileState extends State<Profile> {
       username: userNameController.text
     );
     var req = await userApi.updateUser(user);
-    if(req.statusCode==201){
-      print("ok");
+    if(req.statusCode==201 || req.statusCode==200){
+      openSuccess();
     }else{
-      print(req.statusCode);
+      openFail();
     }
   }
 
@@ -237,9 +264,7 @@ class _ProfileState extends State<Profile> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                         child: Row(
                           children: [
-                            Expanded(child: CustomButton(onPressed: ()=>{Navigator.of(context).pop()}, text: "anuluj", backgroundColor: Color(ThemeProvider.theme["errorRed"]))),
-                            const SizedBox(width: 20),
-                            Expanded(child: CustomButton(onPressed: updateProfileHandler, text: "dodaj"))
+                            Expanded(child: CustomButton(onPressed: updateProfileHandler, text: "zapisz"))
                           ],
                         ),
                       ),
@@ -253,4 +278,26 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
+  Future openSuccess ()=> showDialog(
+      context: context,
+      builder: (context) => const AlertDialog(
+        title: CustomTitle(value: "Sukces!"),
+        content: CustomDescription(
+          value: "Udało się zaakutualizować dane!\nDziękujemy!",
+        ),
+      )
+
+  );
+
+  Future openFail ()=> showDialog(
+      context: context,
+      builder: (context) => const AlertDialog(
+        title: CustomTitle(value: "Coś poszło nie tak..."),
+        content: CustomDescription(
+          value: "Niestety aktualizacja danych nie powiodła się.\nSprawdź połączenie z internetem i spróbuj jeszcze raz!",
+        ),
+      )
+
+  );
 }

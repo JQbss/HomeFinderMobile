@@ -23,6 +23,20 @@ class AnnouncementApi extends BaseApi{
     }
   }
 
+  Future<AnnouncementResponse> getMainAnnouncements() async{
+    final String token = (await AuthApi.getToken())??"";
+    Map<String,String> newHeader = {'Content-Type': 'application/json', HttpHeaders.authorizationHeader: 'Bearer $token'};
+    http.Response response = await http.get(super.announcementMainUri, headers: newHeader);
+    if(response.statusCode==200){
+      final result = json.decode(response.body).cast<Map<String,dynamic>>();
+      AnnouncementResponse announcementResponse = AnnouncementResponse.fromJson(result[0]);
+      return announcementResponse;
+    }else{
+      throw Exception("Wystąpił błąd");
+    }
+  }
+
+
   Future<http.Response> createAnnouncement(Announcement announcement) async {
 
     final String token = (await AuthApi.getToken())??"";
