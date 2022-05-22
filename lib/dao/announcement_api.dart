@@ -10,15 +10,18 @@ import '../model/announcement/announcement.dart';
 
 class AnnouncementApi extends BaseApi{
   Future<AnnouncementResponse> getAll(Map<String,dynamic>? parameters) async {
+    final String token = (await AuthApi.getToken())??"";
+    Map<String,String> newHeader = {'Content-Type': 'application/json', HttpHeaders.authorizationHeader: 'Bearer $token'};
     http.Response response = await http.get(
       Uri.http(super.announcementUri.authority,super.announcementUri.path,parameters),
-        headers: super.headers);
+        headers: newHeader);
 
     if(response.statusCode==200){
       final result = json.decode(response.body).cast<Map<String, dynamic>>();
       AnnouncementResponse announcementResponse = AnnouncementResponse.fromJson(result[0]);
       return announcementResponse;
     }else{
+      print(response.statusCode);
       throw Exception("Wystąpił błąd");
     }
   }

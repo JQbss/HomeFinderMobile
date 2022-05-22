@@ -31,7 +31,7 @@ class Announcement{
   final List<AnnouncementAdditionalAreas>? additionalAreas;
   final Address? address;
   final String? link;
-  late bool isFavorite;
+  bool isFavorite;
 
   Announcement({
     this.uid,
@@ -80,7 +80,7 @@ class Announcement{
     address=json['address']!=null?Address.fromJson(json['address']):null,
     additionalAreas = json['additionalAreas'],
     link = json['link'],
-    isFavorite = json['isFavorite']??false
+    isFavorite = json['favorite']??false
   ;
 
   Map<dynamic,dynamic> toJson() => <dynamic,dynamic>{

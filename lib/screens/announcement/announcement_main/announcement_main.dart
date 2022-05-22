@@ -59,9 +59,15 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
 
   addToFavoriteHandler(int index){
     setState(() {
-      UserApi().addToFavorite(list[index].uid??"").then((value) {
-        list[index].isFavorite=!list[index].isFavorite;
-      });
+      if(list[index].isFavorite){
+        UserApi().deleteFromFavorite(list[index].uid ?? "").then((value) {
+          list[index].isFavorite = !list[index].isFavorite;
+        });
+      }else {
+        UserApi().addToFavorite(list[index].uid ?? "").then((value) {
+          list[index].isFavorite = !list[index].isFavorite;
+        });
+      }
     });
   }
 

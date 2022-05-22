@@ -50,7 +50,7 @@ class _AnnouncementSelectedState extends State<AnnouncementSelected> {
                       area: list[i].area,
                       address: list[i].address?.miejscowosc,
                       imageUrl: list[i].imageLinks!=null?list[i].imageLinks![0]:null,
-                      isFavorite: false,
+                      isFavorite: list[i].isFavorite,
                       favoriteHandler: ()=>{},
                     )
                 ],
