@@ -10,6 +10,7 @@ class CustomTextFormField extends StatefulWidget{
   final double? padding;
   final double? fontSize;
   final int? maxLines;
+  final bool? isPassword;
 
   const CustomTextFormField({
     Key? key,
@@ -18,7 +19,8 @@ class CustomTextFormField extends StatefulWidget{
     this.validator,
     this.padding,
     this.fontSize,
-    this.maxLines
+    this.maxLines,
+    this.isPassword
   }):super(key: key);
 
   @override
@@ -36,6 +38,9 @@ class _CustomTextFormField extends State<CustomTextFormField>{
     return TextFormField(
       controller: widget.controller,
       maxLines: widget.maxLines??1,
+      obscureText: widget.isPassword??false,
+      enableSuggestions: widget.isPassword!=null?!widget.isPassword!:true,
+      autocorrect: widget.isPassword!=null?!widget.isPassword!:true,
       decoration: InputDecoration(
 
         isDense: true,

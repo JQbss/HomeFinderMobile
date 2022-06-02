@@ -73,6 +73,7 @@ class _Login extends State<Login>{
 
               child: CustomTextFormField(
                   controller: passwordController,
+                  isPassword: true,
                   validator: (String? item){
                     if(passwordValidation!="") {
                       return passwordValidation;

@@ -45,14 +45,7 @@ class _AnnouncementSelectedState extends State<AnnouncementSelected> {
               child: ListView(
                 children: [
                   for(int i=0; i<list.length; i++)
-                    AnnouncementWidget(shortDesc: list[i].title,
-                      price: list[i].price,
-                      area: list[i].area,
-                      address: list[i].address?.miejscowosc,
-                      imageUrl: list[i].imageLinks!=null?list[i].imageLinks![0]:null,
-                      isFavorite: list[i].isFavorite,
-                      favoriteHandler: ()=>{},
-                    )
+                    AnnouncementWidget(announcement: list[i])
                 ],
               ),
             ),

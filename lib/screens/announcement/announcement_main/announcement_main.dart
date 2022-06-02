@@ -140,19 +140,12 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
             ),
           ),
           Expanded(
-            child: ListView(
-              children: [
-                for(int i=0; i<list.length; i++)
-                  AnnouncementWidget(shortDesc: list[i].title,
-                    price: list[i].price,
-                    area: list[i].area,
-                    address: list[i].address?.miejscowosc,
-                    imageUrl: list[i].imageLinks!=null?list[i].imageLinks![0]:null,
-                    isFavorite: list[i].isFavorite,
-                    favoriteHandler: ()=>{addToFavoriteHandler(i)},
-
-                  )
-              ],
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: list.length,
+              itemBuilder: (BuildContext context, int index){
+                return AnnouncementWidget(announcement: list[index]);
+              }
             ),
           ),
           pagination.totalPages>0?

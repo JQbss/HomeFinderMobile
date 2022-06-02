@@ -94,14 +94,16 @@ class _RegisterState extends State<Register> {
           Padding(
             padding: const EdgeInsets.only(top:15.0),
             child: CustomTextFormField(
-                controller: passwordController,
-                hint: "hasło",
-                validator: (String? item){
-                  if(passwordValidation!="") {
-                    return passwordValidation;
-                  }
-                  return null;
-                },
+              controller: passwordController,
+
+              isPassword: true,
+              hint: "hasło",
+              validator: (String? item){
+                if(passwordValidation!="") {
+                  return passwordValidation;
+                }
+                return null;
+              },
             ),
           ),
           Padding(

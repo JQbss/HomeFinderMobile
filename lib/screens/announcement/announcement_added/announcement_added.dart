@@ -37,20 +37,7 @@ class _AnnouncementAddedState extends State<AnnouncementAdded> {
         padding: const EdgeInsets.all(20.0),
       child: Stack(
         children: [
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AnnouncementNew()),
-                );
-              },
-              child: const Icon(Icons.add),
-              backgroundColor: Color(ThemeProvider.theme["darkGreen"]),
-            )
-          ),
+
           const CustomTitle(value: "Twoje ogłoszenia"),
 
           Padding(
@@ -58,16 +45,24 @@ class _AnnouncementAddedState extends State<AnnouncementAdded> {
             child: ListView(
               children: [
                 for(int i=0; i<list.length; i++)
-                  AnnouncementWidget(shortDesc: list[i].title,
-                    price: list[i].price,
-                    area: list[i].area,
-                    address: list[i].address?.miejscowosc,
-                    imageUrl: list[i].imageLinks!=null?list[i].imageLinks![0]:null,
-                    isFavorite: false,
-                    favoriteHandler: ()=>{},
+                  AnnouncementWidget(announcement: list[i],
                   )
               ],
             ),
+          ),
+          Positioned(
+              right: 0,
+              bottom: 0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AnnouncementNew()),
+                  );
+                },
+                child: const Icon(Icons.add),
+                backgroundColor: Color(ThemeProvider.theme["darkGreen"]),
+              )
           ),
         ],
       ),
