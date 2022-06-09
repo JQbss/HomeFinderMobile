@@ -8,11 +8,9 @@ import 'package:home_finder/model/pagination/pagination.dart';
 import 'package:home_finder/widget/announcemet_widget/announcement_widget.dart';
 import 'package:home_finder/widget/custom_pagination/custom_pagination.dart';
 
-import '../../../model/enums/types_of_building.dart';
 import '../../../provider/theme/theme_provider.dart';
 import '../../../widget/custom_button/custom_button.dart';
 import '../../../widget/custom_description/custom_description.dart';
-import '../../../widget/custom_dropdown_multiselect/custom_dropdown_multiselect.dart';
 import '../../../widget/custom_text_form_field/custom_text_form_field.dart';
 import '../../../widget/custom_title/custom_title.dart';
 
@@ -26,6 +24,31 @@ class AnnouncementMain extends StatefulWidget {
 class _AnnouncementMainState extends State<AnnouncementMain> {
 
   final _formKey = GlobalKey<FormState>();
+
+  bool isAdvancedFilterEnabled = false;
+  bool isDesk = false;
+  bool isTeapot = false;
+  bool isEspressoMaker = false;
+  bool isArmchair = false;
+  bool isSofa = false;
+  bool isCommode = false;
+  bool isChairs = false;
+  bool isStove = false;
+  bool isTableLamp = false;
+  bool isRefrigerator = false;
+  bool isBed = false;
+  bool isMicrowave = false;
+  bool isVacuum = false;
+  bool isOven = false;
+  bool isWindowShade = false;
+  bool isBedsideTable = false;
+  bool isTable = false;
+  bool isWardrobe = false;
+  bool isTV = false;
+  bool isBathtub = false;
+  bool isDishwasher = false;
+  bool isIron = false;
+
   TextEditingController localizationController = TextEditingController();
 
 
@@ -33,6 +56,8 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
   TextEditingController priceTo = TextEditingController();
   TextEditingController metersFrom = TextEditingController();
   TextEditingController metersTo = TextEditingController();
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
   final List<String> selectedBuildingType = [];
   List<Announcement> list = [];
   Pagination pagination = Pagination(currentPage: 0, limit: 1, totalItems: 0, totalPages: 0);
@@ -56,6 +81,46 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
     CustomPagination.globalKey.currentState?.getButtonsValues();
 
   }
+
+  searchAnnouncementHandler()async{
+    Map<String,dynamic>? parameters = ({
+      "limit":"10",
+      "address__miejscowosc":localizationController.text,
+      "price":'${priceFrom.text}:${priceTo.text}',
+      "area":'${metersFrom.text}:${metersTo.text}',
+      "title": title.text,
+      "description": description.text
+    });
+
+    if(isAdvancedFilterEnabled){
+      parameters.addAll({
+        "furnishes__isBed":isBed,
+        "furnishes__isTable":isTable,
+        "furnishes__isBathtub":isBathtub,
+        "furnishes__isArmchair":isArmchair,
+        "furnishes__isBedsideTable":isBedsideTable,
+        "furnishes__isChairs":isChairs,
+        "furnishes__isCommode":isCommode,
+        "furnishes__isDishwasher":isDishwasher,
+        "furnishes__isEspressoMaker":isEspressoMaker,
+        "furnishes__isIron":isIron,
+        "furnishes__isMicrowave":isMicrowave,
+        "furnishes__isOven":isOven,
+        "furnishes__isRefrigerator":isRefrigerator,
+        "furnishes__isSofa":isSofa,
+        "furnishes__isStove":isStove,
+        "furnishes__isTableLamp":isTableLamp,
+        "furnishes__isTeapot":isTeapot,
+        "furnishes__isTV":isTV,
+        "furnishes__isVacuum":isVacuum,
+        "furnishes__isWardrobe":isWardrobe,
+        "furnishes__isWindowShade":isWindowShade,
+        "furnishes__isDesk":isDesk,
+      });
+    }
+    await getAnnouncementHandler(parameters);
+  }
+
 
   addToFavoriteHandler(int index){
     setState(() {
@@ -112,12 +177,22 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
                                     height: 30,
                                     child: CustomButton(
                                         fontSize: 14,
-                                        onPressed: ()=>{},
+                                        onPressed: openAdvancedFilter,
                                         text: "zaawansowane"),
                                   )
                                 ],
                               ),
-                            )
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: SizedBox(
+                                height: 30,
+                                child: CustomButton(
+                                    fontSize: 14,
+                                    onPressed: searchAnnouncementHandler,
+                                    text: "Szukaj"),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -158,111 +233,559 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
     context: context,
     builder: (context) => AlertDialog(
       title: const CustomTitle(value:"Podstawowe filtry"),
-      content: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: const CustomDescription(value: "Rodzaj zabudowy"),
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: const CustomDescription(value: "Tytuł"),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
-            child: CustomDropdownMultiselect(items: listOfBuildingTypes(), text: "wybierz", selectedItems: selectedBuildingType),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: const CustomDescription(value: "Cena"),
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0,bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Od"),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: CustomTextFormField(
+                    controller: title
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Do"),
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10, top: 10),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: const CustomDescription(value: "Cena"),
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: CustomTextFormField(
-                      controller: priceFrom
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0,bottom: 5),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3.1,
+                    child: const CustomDescription(value: "Od"),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3.1,
-                child: CustomTextFormField(
-                    controller: priceTo
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3.1,
+                    child: const CustomDescription(value: "Do"),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10,top: 10),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: const CustomDescription(value: "Powierzechnia (m\u{00B2})"),
+              ],
             ),
-          ),
-          Row(
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3.1,
+                    child: CustomTextFormField(
+                        controller: priceFrom
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 3.1,
+                  child: CustomTextFormField(
+                      controller: priceTo
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10,top: 10),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: const CustomDescription(value: "Powierzechnia (m\u{00B2})"),
+              ),
+            ),
+            Row(
 
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0,bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Od"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: const CustomDescription(value: "Do"),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                  child: CustomTextFormField(
-                      controller: metersFrom
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0,bottom: 5),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3.1,
+                    child: const CustomDescription(value: "Od"),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3.1,
+                    child: const CustomDescription(value: "Do"),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3.1,
+                    child: CustomTextFormField(
+                        controller: metersFrom
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 3.1,
+                  child: CustomTextFormField(
+                      controller: metersTo
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10, top: 10),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: const CustomDescription(value: "Opis"),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3.1,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
                 child: CustomTextFormField(
-                    controller: metersTo
+                    controller: description
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     ),
+  );
+
+  Future openAdvancedFilter () => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const CustomTitle(value:"Zaawansowane filtry"),
+        content: StatefulBuilder(
+          builder:  (BuildContext context, StateSetter setState) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: isAdvancedFilterEnabled,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isAdvancedFilterEnabled = value!;
+                            });
+                          }),
+                      Text(
+                        "Czy włączyć zaawansowane filtry?",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(ThemeProvider.theme["darkText"]),
+                          fontWeight: FontWeight.w800,
+                        ),
+                      )
+                    ],
+                  ),
+                  if(isAdvancedFilterEnabled)
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isDesk,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isDesk = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Biurko")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isWindowShade,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isWindowShade = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Rolety")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isWardrobe,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isWardrobe = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Garderoba")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isVacuum,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isVacuum = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Odkurzacz")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isTV,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isTV = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "TV")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isTeapot,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isTeapot = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Czajnik")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isTableLamp,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isTableLamp = value!;
+                                      });
+                                    }),
+                                const Expanded(
+                                  child: CustomDescription(
+                                      value: "Lampka stołowa"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isStove,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isStove = value!;
+                                      });
+                                    }),
+                                const Expanded(
+                                  child: CustomDescription(
+                                      value: "Kuchenka"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isSofa,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isSofa = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Kanapa")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isRefrigerator,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isRefrigerator = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Lodówka")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isOven,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isOven = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Piekarnik")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isMicrowave,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isMicrowave = value!;
+                                      });
+                                    }),
+                                const Expanded(
+                                  child: CustomDescription(
+                                      value: "Mikrofalówka"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isIron,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isIron = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Żelazko")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isEspressoMaker,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isEspressoMaker = value!;
+                                      });
+                                    }),
+                                const Expanded(
+                                  child: CustomDescription(
+                                      value: "Ekspres do kawy"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isTable,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isTable = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Stół")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isBed,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isBed = value!;
+                                      });
+                                    }),
+                                const Expanded(
+                                  child: CustomDescription(
+                                      value: "Łóżko"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isDishwasher,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isDishwasher = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Zmywarka")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isCommode,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isCommode = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Komoda")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isChairs,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isChairs = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Krzesła")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isBedsideTable,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isBedsideTable = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Stolik nocny")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isBathtub,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isBathtub = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Wanna")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: isArmchair,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isArmchair = value!;
+                                      });
+                                    }),
+                                const CustomDescription(
+                                    value: "Fotel")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            );
+          }
+        ),
+      )
   );
 }
 

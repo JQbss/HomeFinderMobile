@@ -25,6 +25,7 @@ class Announcement{
   final double? area;
   final String? sellerUid;
   final List<dynamic>? imageLinks;
+  final List<String>? images;
   final AnnouncementStatuses? status;
   final int? yearOfBuilding;
   final AnnouncementMarkets? announcementMarket;
@@ -55,6 +56,7 @@ class Announcement{
     this.additionalAreas,
     this.address,
     this.link,
+    this.images,
     required this.isFavorite
   });
 
@@ -74,12 +76,14 @@ class Announcement{
     area = json['area']?.toDouble(),
     sellerUid = json['sellerUid'],
     imageLinks = json['imageLinks'],
+    images = json['images'],
     status = json['status'],
     yearOfBuilding = json['yearOfBuilding'],
     announcementMarket = json['announcementMarket'],
     address=json['address']!=null?Address.fromJson(json['address']):null,
     additionalAreas = json['additionalAreas'],
     link = json['link'],
+
     isFavorite = json['favorite']??false
   ;
 
@@ -105,5 +109,6 @@ class Announcement{
     'announcementMarket':announcementMarket?.index,
     'additionalAreas':additionalAreas,
     'link':link,
+    'images':images,
   };
 }

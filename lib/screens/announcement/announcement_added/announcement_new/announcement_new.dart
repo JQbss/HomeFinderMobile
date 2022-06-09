@@ -36,6 +36,9 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
   int selectedBuildingType=0;
   int selectedCategory=0;
 
+
+
+
   void changeCategory(int? newValue){
     setState(() {
       selectedCategory=newValue??0;

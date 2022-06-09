@@ -29,8 +29,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
         widget.announcement.isFavorite = true;
       }
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -102,7 +102,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                         children: [
                           CustomInputTitle(value: widget.announcement.price.toString()+" zł"),
                           const Expanded(child: SizedBox()),
-                          CustomInputTitle(value: widget.announcement.area.toString()+" m\u{00B2}")
+                          if(widget.announcement.area!=null)
+                            CustomInputTitle(value: widget.announcement.area.toString()+" m\u{00B2}")
                         ],
                       ),
                       Row(

@@ -55,6 +55,7 @@ class UserApi extends BaseApi{
       AnnouncementResponse announcementResponse = AnnouncementResponse.fromJson(result[0]);
       return announcementResponse;
     }else{
+      print(response.statusCode);
       throw Exception("Wystąpił błąd");
     }
   }
