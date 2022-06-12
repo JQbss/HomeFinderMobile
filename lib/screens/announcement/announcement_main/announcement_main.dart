@@ -94,30 +94,31 @@ class _AnnouncementMainState extends State<AnnouncementMain> {
 
     if(isAdvancedFilterEnabled){
       parameters.addAll({
-        "furnishes__isBed":isBed,
-        "furnishes__isTable":isTable,
-        "furnishes__isBathtub":isBathtub,
-        "furnishes__isArmchair":isArmchair,
-        "furnishes__isBedsideTable":isBedsideTable,
-        "furnishes__isChairs":isChairs,
-        "furnishes__isCommode":isCommode,
-        "furnishes__isDishwasher":isDishwasher,
-        "furnishes__isEspressoMaker":isEspressoMaker,
-        "furnishes__isIron":isIron,
-        "furnishes__isMicrowave":isMicrowave,
-        "furnishes__isOven":isOven,
-        "furnishes__isRefrigerator":isRefrigerator,
-        "furnishes__isSofa":isSofa,
-        "furnishes__isStove":isStove,
-        "furnishes__isTableLamp":isTableLamp,
-        "furnishes__isTeapot":isTeapot,
-        "furnishes__isTV":isTV,
-        "furnishes__isVacuum":isVacuum,
-        "furnishes__isWardrobe":isWardrobe,
-        "furnishes__isWindowShade":isWindowShade,
-        "furnishes__isDesk":isDesk,
+        "furnishes__isBed":isBed.toString(),
+        "furnishes__isTable":isTable.toString(),
+        "furnishes__isBathtub":isBathtub.toString(),
+        "furnishes__isArmchair":isArmchair.toString(),
+        "furnishes__isBedsideTable":isBedsideTable.toString(),
+        "furnishes__isChairs":isChairs.toString(),
+        "furnishes__isCommode":isCommode.toString(),
+        "furnishes__isDishwasher":isDishwasher.toString(),
+        "furnishes__isEspressoMaker":isEspressoMaker.toString(),
+        "furnishes__isIron":isIron.toString(),
+        "furnishes__isMicrowave":isMicrowave.toString(),
+        "furnishes__isOven":isOven.toString(),
+        "furnishes__isRefrigerator":isRefrigerator.toString(),
+        "furnishes__isSofa":isSofa.toString(),
+        "furnishes__isStove":isStove.toString(),
+        "furnishes__isTableLamp":isTableLamp.toString(),
+        "furnishes__isTeapot":isTeapot.toString(),
+        "furnishes__isTV":isTV.toString(),
+        "furnishes__isVacuum":isVacuum.toString(),
+        "furnishes__isWardrobe":isWardrobe.toString(),
+        "furnishes__isWindowShade":isWindowShade.toString(),
+        "furnishes__isDesk":isDesk.toString(),
       });
-    }
+    };
+    print(parameters);
     await getAnnouncementHandler(parameters);
   }
 

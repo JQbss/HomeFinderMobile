@@ -131,6 +131,7 @@ class _AnnouncementDetailsState extends State<AnnouncementDetails> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      if(widget.announcement.address?.miejscowosc != null)
                       Row(
                         children: [
                           const Icon(Icons.location_city_outlined ),

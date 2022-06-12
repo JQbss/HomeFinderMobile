@@ -27,6 +27,7 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
   AnnouncementApi announcementApi = AnnouncementApi();
   final _formKey = GlobalKey<FormState>();
 
+  TextEditingController titleController = TextEditingController();
   TextEditingController localizationController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController areaController = TextEditingController();
@@ -123,6 +124,11 @@ class _AnnouncementNewState extends State<AnnouncementNew> {
                             color: Color(ThemeProvider.theme["dividerBlack"]),
                             thickness: 2,
                           ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 10.0, bottom: 5),
+                            child: CustomDescription(value: "Title"),
+                          ),
+                          CustomTextFormField(controller: titleController, hint: "wprowadź tytuł",fontSize: 14,padding: 8),
                           const Padding(
                             padding: EdgeInsets.only(top: 10.0, bottom: 10),
                             child: CustomDescription(value: "Rodzaj zabudowy"),
